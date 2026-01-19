@@ -1,0 +1,1652 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Heidi Health AI Medical Scribe - Interface Mockup</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        :root {
+            --primary-green: #00B894;
+            --primary-dark: #00A085;
+            --secondary-blue: #0984E3;
+            --bg-dark: #1a1a2e;
+            --bg-panel: #16213e;
+            --bg-light: #ffffff;
+            --text-light: #ffffff;
+            --text-dark: #2d3436;
+            --border-color: #e0e0e0;
+            --sidebar-width: 260px;
+        }
+
+        body {
+            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, Ubuntu, sans-serif;
+            background: var(--bg-light);
+            color: var(--text-dark);
+            height: 100vh;
+            overflow: hidden;
+        }
+
+        /* Main Layout */
+        .app-container {
+            display: flex;
+            height: 100vh;
+        }
+
+        /* Left Sidebar */
+        .sidebar {
+            width: var(--sidebar-width);
+            background: var(--bg-dark);
+            color: var(--text-light);
+            display: flex;
+            flex-direction: column;
+            transition: all 0.3s ease;
+        }
+
+        .sidebar-header {
+            padding: 20px;
+            border-bottom: 1px solid rgba(255,255,255,0.1);
+        }
+
+        .logo {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            font-size: 24px;
+            font-weight: 700;
+        }
+
+        .logo-icon {
+            width: 40px;
+            height: 40px;
+            background: linear-gradient(135deg, var(--primary-green), #00D4AA);
+            border-radius: 10px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 20px;
+        }
+
+        .new-session-btn {
+            width: 100%;
+            margin-top: 15px;
+            padding: 12px 20px;
+            background: var(--primary-green);
+            color: white;
+            border: none;
+            border-radius: 8px;
+            font-size: 14px;
+            font-weight: 600;
+            cursor: pointer;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 8px;
+            transition: all 0.2s ease;
+        }
+
+        .new-session-btn:hover {
+            background: var(--primary-dark);
+            transform: translateY(-1px);
+        }
+
+        .sidebar-nav {
+            flex: 1;
+            padding: 15px 10px;
+            overflow-y: auto;
+        }
+
+        .nav-section {
+            margin-bottom: 20px;
+        }
+
+        .nav-section-title {
+            font-size: 11px;
+            text-transform: uppercase;
+            color: rgba(255,255,255,0.5);
+            padding: 10px 15px;
+            letter-spacing: 1px;
+        }
+
+        .nav-item {
+            padding: 12px 15px;
+            border-radius: 8px;
+            cursor: pointer;
+            display: flex;
+            align-items: center;
+            gap: 12px;
+            transition: all 0.2s ease;
+            font-size: 14px;
+        }
+
+        .nav-item:hover {
+            background: rgba(255,255,255,0.1);
+        }
+
+        .nav-item.active {
+            background: rgba(0, 184, 148, 0.2);
+            color: var(--primary-green);
+        }
+
+        .nav-item-icon {
+            width: 20px;
+            text-align: center;
+            opacity: 0.8;
+        }
+
+        .session-list {
+            margin-top: 10px;
+        }
+
+        .session-item {
+            padding: 10px 15px;
+            border-radius: 8px;
+            cursor: pointer;
+            font-size: 13px;
+            color: rgba(255,255,255,0.7);
+            transition: all 0.2s ease;
+            display: flex;
+            flex-direction: column;
+            gap: 4px;
+        }
+
+        .session-item:hover {
+            background: rgba(255,255,255,0.1);
+            color: white;
+        }
+
+        .session-item.active {
+            background: rgba(0, 184, 148, 0.15);
+            border-left: 3px solid var(--primary-green);
+        }
+
+        .session-date {
+            font-size: 11px;
+            color: rgba(255,255,255,0.4);
+        }
+
+        /* Main Content Area */
+        .main-content {
+            flex: 1;
+            display: flex;
+            flex-direction: column;
+            background: #f5f7fa;
+        }
+
+        /* Top Bar */
+        .top-bar {
+            background: white;
+            padding: 15px 25px;
+            border-bottom: 1px solid var(--border-color);
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+        }
+
+        .session-title {
+            font-size: 18px;
+            font-weight: 600;
+            color: var(--text-dark);
+        }
+
+        .session-title input {
+            border: none;
+            font-size: 18px;
+            font-weight: 600;
+            background: transparent;
+            outline: none;
+            width: 300px;
+        }
+
+        .top-actions {
+            display: flex;
+            gap: 10px;
+            align-items: center;
+        }
+
+        .brain-toggle {
+            display: flex;
+            background: #f0f0f0;
+            border-radius: 20px;
+            padding: 4px;
+        }
+
+        .brain-option {
+            padding: 8px 16px;
+            border-radius: 16px;
+            font-size: 12px;
+            cursor: pointer;
+            transition: all 0.2s ease;
+            display: flex;
+            align-items: center;
+            gap: 6px;
+        }
+
+        .brain-option.active {
+            background: white;
+            box-shadow: 0 2px 4px rgba(0,0,0,0.1);
+        }
+
+        .brain-option.left-brain.active {
+            color: var(--secondary-blue);
+        }
+
+        .brain-option.right-brain.active {
+            color: #E17055;
+        }
+
+        .action-btn {
+            padding: 8px 16px;
+            border: 1px solid var(--border-color);
+            background: white;
+            border-radius: 8px;
+            cursor: pointer;
+            font-size: 13px;
+            display: flex;
+            align-items: center;
+            gap: 6px;
+            transition: all 0.2s ease;
+        }
+
+        .action-btn:hover {
+            background: #f5f5f5;
+        }
+
+        .action-btn.primary {
+            background: var(--primary-green);
+            color: white;
+            border-color: var(--primary-green);
+        }
+
+        .action-btn.primary:hover {
+            background: var(--primary-dark);
+        }
+
+        /* Content Grid */
+        .content-grid {
+            flex: 1;
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 20px;
+            padding: 20px;
+            overflow: hidden;
+        }
+
+        .panel {
+            background: white;
+            border-radius: 12px;
+            box-shadow: 0 2px 8px rgba(0,0,0,0.05);
+            display: flex;
+            flex-direction: column;
+            overflow: hidden;
+        }
+
+        .panel-header {
+            padding: 15px 20px;
+            border-bottom: 1px solid var(--border-color);
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+        }
+
+        .panel-title {
+            font-size: 14px;
+            font-weight: 600;
+            display: flex;
+            align-items: center;
+            gap: 8px;
+        }
+
+        .panel-content {
+            flex: 1;
+            padding: 20px;
+            overflow-y: auto;
+        }
+
+        /* Transcription Panel */
+        .recording-indicator {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+        }
+
+        .record-btn {
+            width: 50px;
+            height: 50px;
+            border-radius: 50%;
+            border: none;
+            background: #ff4757;
+            cursor: pointer;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            transition: all 0.2s ease;
+            position: relative;
+        }
+
+        .record-btn.recording {
+            animation: pulse 1.5s infinite;
+        }
+
+        .record-btn .icon {
+            width: 20px;
+            height: 20px;
+            background: white;
+            border-radius: 4px;
+        }
+
+        .record-btn:not(.recording) .icon {
+            border-radius: 50%;
+        }
+
+        @keyframes pulse {
+            0% { box-shadow: 0 0 0 0 rgba(255, 71, 87, 0.4); }
+            70% { box-shadow: 0 0 0 15px rgba(255, 71, 87, 0); }
+            100% { box-shadow: 0 0 0 0 rgba(255, 71, 87, 0); }
+        }
+
+        .audio-bars {
+            display: flex;
+            align-items: center;
+            gap: 3px;
+            height: 30px;
+        }
+
+        .audio-bar {
+            width: 4px;
+            background: var(--primary-green);
+            border-radius: 2px;
+            transition: height 0.1s ease;
+        }
+
+        .timer {
+            font-family: 'SF Mono', monospace;
+            font-size: 16px;
+            font-weight: 500;
+            color: var(--text-dark);
+        }
+
+        .transcript-area {
+            font-size: 14px;
+            line-height: 1.8;
+            color: #555;
+        }
+
+        .transcript-speaker {
+            font-weight: 600;
+            color: var(--primary-green);
+            margin-top: 15px;
+            margin-bottom: 5px;
+        }
+
+        .transcript-speaker:first-child {
+            margin-top: 0;
+        }
+
+        .transcript-text {
+            margin-bottom: 10px;
+        }
+
+        .typing-indicator {
+            display: inline-flex;
+            gap: 4px;
+            padding: 8px 12px;
+            background: #f0f0f0;
+            border-radius: 12px;
+            margin-top: 10px;
+        }
+
+        .typing-dot {
+            width: 6px;
+            height: 6px;
+            background: #888;
+            border-radius: 50%;
+            animation: typing 1.4s infinite both;
+        }
+
+        .typing-dot:nth-child(2) { animation-delay: 0.2s; }
+        .typing-dot:nth-child(3) { animation-delay: 0.4s; }
+
+        @keyframes typing {
+            0%, 100% { opacity: 0.3; transform: translateY(0); }
+            50% { opacity: 1; transform: translateY(-4px); }
+        }
+
+        /* Context Panel */
+        .context-input {
+            width: 100%;
+            min-height: 100px;
+            border: 1px dashed var(--border-color);
+            border-radius: 8px;
+            padding: 12px;
+            font-size: 14px;
+            resize: none;
+            outline: none;
+            transition: border-color 0.2s ease;
+        }
+
+        .context-input:focus {
+            border-color: var(--primary-green);
+        }
+
+        .context-hint {
+            font-size: 12px;
+            color: #888;
+            margin-top: 8px;
+        }
+
+        /* Note Panel */
+        .note-content {
+            font-size: 14px;
+            line-height: 1.7;
+        }
+
+        .note-section {
+            margin-bottom: 20px;
+        }
+
+        .note-section-title {
+            font-weight: 700;
+            color: var(--text-dark);
+            margin-bottom: 8px;
+            font-size: 13px;
+            text-transform: uppercase;
+            letter-spacing: 0.5px;
+        }
+
+        .note-section-content {
+            color: #555;
+        }
+
+        .note-section-content ul {
+            padding-left: 20px;
+        }
+
+        .note-section-content li {
+            margin-bottom: 4px;
+        }
+
+        /* Ask Heidi Bar */
+        .ask-heidi-bar {
+            padding: 15px 20px;
+            border-top: 1px solid var(--border-color);
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            background: #fafafa;
+        }
+
+        .ask-heidi-input {
+            flex: 1;
+            padding: 12px 15px;
+            border: 1px solid var(--border-color);
+            border-radius: 25px;
+            font-size: 14px;
+            outline: none;
+            transition: border-color 0.2s ease;
+        }
+
+        .ask-heidi-input:focus {
+            border-color: var(--primary-green);
+        }
+
+        .ask-heidi-btn {
+            width: 40px;
+            height: 40px;
+            border-radius: 50%;
+            background: var(--primary-green);
+            border: none;
+            color: white;
+            cursor: pointer;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            transition: all 0.2s ease;
+        }
+
+        .ask-heidi-btn:hover {
+            background: var(--primary-dark);
+            transform: scale(1.05);
+        }
+
+        /* Coding Panel */
+        .coding-panel {
+            background: #f8f9fa;
+            border-radius: 8px;
+            padding: 15px;
+            margin-top: 15px;
+        }
+
+        .coding-header {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            margin-bottom: 12px;
+        }
+
+        .coding-title {
+            font-weight: 600;
+            font-size: 14px;
+            display: flex;
+            align-items: center;
+            gap: 8px;
+        }
+
+        .coding-progress {
+            display: flex;
+            gap: 4px;
+        }
+
+        .progress-dot {
+            width: 8px;
+            height: 8px;
+            border-radius: 50%;
+            background: #ddd;
+        }
+
+        .progress-dot.confirmed {
+            background: var(--primary-green);
+        }
+
+        .progress-dot.partial {
+            background: #f39c12;
+        }
+
+        .code-item {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            padding: 10px 12px;
+            background: white;
+            border-radius: 6px;
+            margin-bottom: 8px;
+            border: 1px solid var(--border-color);
+            cursor: pointer;
+            transition: all 0.2s ease;
+        }
+
+        .code-item:hover {
+            border-color: var(--primary-green);
+            box-shadow: 0 2px 4px rgba(0,0,0,0.05);
+        }
+
+        .code-info {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+        }
+
+        .code-type {
+            padding: 2px 6px;
+            background: #e3f2fd;
+            border-radius: 4px;
+            font-size: 10px;
+            font-weight: 600;
+            color: var(--secondary-blue);
+        }
+
+        .code-value {
+            font-family: 'SF Mono', monospace;
+            font-size: 13px;
+            font-weight: 500;
+        }
+
+        .code-desc {
+            font-size: 12px;
+            color: #666;
+        }
+
+        .code-status {
+            width: 20px;
+            height: 20px;
+            border-radius: 50%;
+            border: 2px solid var(--border-color);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 12px;
+            color: white;
+        }
+
+        .code-status.confirmed {
+            background: var(--primary-green);
+            border-color: var(--primary-green);
+        }
+
+        /* Template Modal */
+        .modal-overlay {
+            position: fixed;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            background: rgba(0,0,0,0.5);
+            display: none;
+            align-items: center;
+            justify-content: center;
+            z-index: 1000;
+        }
+
+        .modal-overlay.show {
+            display: flex;
+        }
+
+        .modal {
+            background: white;
+            border-radius: 16px;
+            width: 90%;
+            max-width: 600px;
+            max-height: 80vh;
+            overflow: hidden;
+            display: flex;
+            flex-direction: column;
+        }
+
+        .modal-header {
+            padding: 20px 25px;
+            border-bottom: 1px solid var(--border-color);
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+        }
+
+        .modal-title {
+            font-size: 18px;
+            font-weight: 600;
+        }
+
+        .modal-close {
+            width: 32px;
+            height: 32px;
+            border-radius: 8px;
+            border: none;
+            background: #f0f0f0;
+            cursor: pointer;
+            font-size: 18px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+
+        .modal-body {
+            padding: 20px 25px;
+            overflow-y: auto;
+        }
+
+        .template-search {
+            width: 100%;
+            padding: 12px 15px;
+            border: 1px solid var(--border-color);
+            border-radius: 8px;
+            font-size: 14px;
+            margin-bottom: 15px;
+            outline: none;
+        }
+
+        .template-tabs {
+            display: flex;
+            gap: 10px;
+            margin-bottom: 15px;
+        }
+
+        .template-tab {
+            padding: 8px 16px;
+            border-radius: 20px;
+            background: #f0f0f0;
+            border: none;
+            cursor: pointer;
+            font-size: 13px;
+            transition: all 0.2s ease;
+        }
+
+        .template-tab.active {
+            background: var(--primary-green);
+            color: white;
+        }
+
+        .template-grid {
+            display: grid;
+            grid-template-columns: repeat(2, 1fr);
+            gap: 12px;
+        }
+
+        .template-card {
+            padding: 15px;
+            border: 1px solid var(--border-color);
+            border-radius: 10px;
+            cursor: pointer;
+            transition: all 0.2s ease;
+        }
+
+        .template-card:hover {
+            border-color: var(--primary-green);
+            box-shadow: 0 4px 12px rgba(0, 184, 148, 0.15);
+        }
+
+        .template-card.selected {
+            border-color: var(--primary-green);
+            background: rgba(0, 184, 148, 0.05);
+        }
+
+        .template-name {
+            font-weight: 600;
+            margin-bottom: 4px;
+        }
+
+        .template-desc {
+            font-size: 12px;
+            color: #888;
+        }
+
+        .template-favorite {
+            color: #f1c40f;
+            margin-left: 5px;
+        }
+
+        /* Bottom Bar */
+        .bottom-bar {
+            padding: 15px 20px;
+            background: white;
+            border-top: 1px solid var(--border-color);
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+        }
+
+        .bottom-left {
+            display: flex;
+            gap: 10px;
+        }
+
+        .bottom-right {
+            display: flex;
+            gap: 10px;
+        }
+
+        /* Feature Tooltip */
+        .feature-tooltip {
+            position: fixed;
+            background: var(--bg-dark);
+            color: white;
+            padding: 12px 16px;
+            border-radius: 8px;
+            font-size: 13px;
+            max-width: 250px;
+            z-index: 1001;
+            pointer-events: none;
+            opacity: 0;
+            transition: opacity 0.2s ease;
+        }
+
+        .feature-tooltip.show {
+            opacity: 1;
+        }
+
+        .feature-tooltip::after {
+            content: '';
+            position: absolute;
+            bottom: -6px;
+            left: 20px;
+            border-left: 6px solid transparent;
+            border-right: 6px solid transparent;
+            border-top: 6px solid var(--bg-dark);
+        }
+
+        /* Integration Badge */
+        .integration-badge {
+            display: inline-flex;
+            align-items: center;
+            gap: 6px;
+            padding: 4px 10px;
+            background: #e8f5e9;
+            border-radius: 12px;
+            font-size: 11px;
+            color: #2e7d32;
+        }
+
+        /* Responsive */
+        @media (max-width: 1200px) {
+            .content-grid {
+                grid-template-columns: 1fr;
+            }
+        }
+
+        @media (max-width: 768px) {
+            .sidebar {
+                position: fixed;
+                left: -260px;
+                height: 100%;
+                z-index: 100;
+            }
+
+            .sidebar.open {
+                left: 0;
+            }
+        }
+
+        /* Feature Demo Section */
+        .demo-section {
+            position: fixed;
+            right: 0;
+            top: 0;
+            width: 350px;
+            height: 100%;
+            background: var(--bg-dark);
+            color: white;
+            padding: 20px;
+            overflow-y: auto;
+            z-index: 50;
+            transform: translateX(100%);
+            transition: transform 0.3s ease;
+        }
+
+        .demo-section.show {
+            transform: translateX(0);
+        }
+
+        .demo-header {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            margin-bottom: 25px;
+        }
+
+        .demo-title {
+            font-size: 16px;
+            font-weight: 600;
+        }
+
+        .demo-close {
+            width: 30px;
+            height: 30px;
+            border-radius: 6px;
+            border: none;
+            background: rgba(255,255,255,0.1);
+            color: white;
+            cursor: pointer;
+        }
+
+        .feature-card {
+            background: rgba(255,255,255,0.05);
+            border-radius: 10px;
+            padding: 15px;
+            margin-bottom: 15px;
+            cursor: pointer;
+            transition: all 0.2s ease;
+            border: 1px solid transparent;
+        }
+
+        .feature-card:hover {
+            background: rgba(255,255,255,0.1);
+            border-color: var(--primary-green);
+        }
+
+        .feature-card.active {
+            border-color: var(--primary-green);
+            background: rgba(0, 184, 148, 0.1);
+        }
+
+        .feature-card-title {
+            font-weight: 600;
+            margin-bottom: 6px;
+            display: flex;
+            align-items: center;
+            gap: 8px;
+        }
+
+        .feature-card-desc {
+            font-size: 12px;
+            color: rgba(255,255,255,0.7);
+            line-height: 1.5;
+        }
+
+        .feature-demo-btn {
+            display: inline-flex;
+            align-items: center;
+            gap: 6px;
+            margin-top: 10px;
+            padding: 6px 12px;
+            background: var(--primary-green);
+            border-radius: 6px;
+            font-size: 12px;
+            color: white;
+            border: none;
+            cursor: pointer;
+        }
+
+        .demo-toggle {
+            position: fixed;
+            right: 20px;
+            bottom: 20px;
+            padding: 12px 20px;
+            background: var(--primary-green);
+            color: white;
+            border: none;
+            border-radius: 25px;
+            cursor: pointer;
+            font-weight: 600;
+            font-size: 14px;
+            display: flex;
+            align-items: center;
+            gap: 8px;
+            box-shadow: 0 4px 15px rgba(0, 184, 148, 0.3);
+            z-index: 51;
+        }
+    </style>
+</head>
+<body>
+    <div class="app-container">
+        <!-- Left Sidebar -->
+        <aside class="sidebar">
+            <div class="sidebar-header">
+                <div class="logo">
+                    <div class="logo-icon">H</div>
+                    <span>Heidi</span>
+                </div>
+                <button class="new-session-btn" onclick="startNewSession()">
+                    <span>+</span> New Session
+                </button>
+            </div>
+
+            <nav class="sidebar-nav">
+                <div class="nav-section">
+                    <div class="nav-section-title">Menu</div>
+                    <div class="nav-item active">
+                        <span class="nav-item-icon">📝</span>
+                        Sessions
+                    </div>
+                    <div class="nav-item" onclick="showTemplateModal()">
+                        <span class="nav-item-icon">📋</span>
+                        Templates
+                    </div>
+                    <div class="nav-item">
+                        <span class="nav-item-icon">🔗</span>
+                        Integrations
+                    </div>
+                    <div class="nav-item">
+                        <span class="nav-item-icon">⚙️</span>
+                        Settings
+                    </div>
+                </div>
+
+                <div class="nav-section">
+                    <div class="nav-section-title">Recent Sessions</div>
+                    <div class="session-list">
+                        <div class="session-item active" onclick="loadSession(1)">
+                            <span>John Smith - Follow Up</span>
+                            <span class="session-date">Today, 2:30 PM</span>
+                        </div>
+                        <div class="session-item" onclick="loadSession(2)">
+                            <span>Sarah Johnson - Initial Consult</span>
+                            <span class="session-date">Today, 11:00 AM</span>
+                        </div>
+                        <div class="session-item" onclick="loadSession(3)">
+                            <span>Michael Brown - Annual Physical</span>
+                            <span class="session-date">Yesterday</span>
+                        </div>
+                        <div class="session-item" onclick="loadSession(4)">
+                            <span>Emily Davis - Urgent Care</span>
+                            <span class="session-date">Jan 17, 2026</span>
+                        </div>
+                    </div>
+                </div>
+            </nav>
+        </aside>
+
+        <!-- Main Content -->
+        <main class="main-content">
+            <!-- Top Bar -->
+            <header class="top-bar">
+                <div class="session-title">
+                    <input type="text" value="John Smith - Follow Up Visit" id="sessionName" placeholder="Click to name session...">
+                </div>
+                <div class="top-actions">
+                    <div class="integration-badge">
+                        <span>🔗</span> Epic Connected
+                    </div>
+                    <div class="brain-toggle">
+                        <div class="brain-option left-brain active" onclick="toggleBrain('left')">
+                            <span>🧠</span> Left Brain
+                        </div>
+                        <div class="brain-option right-brain" onclick="toggleBrain('right')">
+                            <span>🧠</span> Right Brain
+                        </div>
+                    </div>
+                    <button class="action-btn" onclick="showTemplateModal()">
+                        <span>📋</span> Templates
+                    </button>
+                </div>
+            </header>
+
+            <!-- Content Grid -->
+            <div class="content-grid">
+                <!-- Transcription Panel -->
+                <div class="panel">
+                    <div class="panel-header">
+                        <div class="panel-title">
+                            <span>🎙️</span> Transcription
+                        </div>
+                        <div class="recording-indicator">
+                            <div class="audio-bars" id="audioBars">
+                                <div class="audio-bar" style="height: 10px;"></div>
+                                <div class="audio-bar" style="height: 20px;"></div>
+                                <div class="audio-bar" style="height: 15px;"></div>
+                            </div>
+                            <div class="timer" id="timer">00:00</div>
+                            <button class="record-btn" id="recordBtn" onclick="toggleRecording()">
+                                <div class="icon"></div>
+                            </button>
+                        </div>
+                    </div>
+                    <div class="panel-content">
+                        <div class="transcript-area" id="transcriptArea">
+                            <div class="transcript-speaker">Doctor:</div>
+                            <div class="transcript-text">Good afternoon, Mr. Smith. How have you been feeling since your last visit?</div>
+
+                            <div class="transcript-speaker">Patient:</div>
+                            <div class="transcript-text">Hi doctor. Overall pretty good, but I've been having some occasional headaches in the morning. They usually go away after I have my coffee.</div>
+
+                            <div class="transcript-speaker">Doctor:</div>
+                            <div class="transcript-text">I see. Have you noticed any patterns? Are they happening on specific days or related to anything like stress or sleep?</div>
+
+                            <div class="transcript-speaker">Patient:</div>
+                            <div class="transcript-text">Now that you mention it, they do seem worse on days when I don't sleep well. I've been under a lot of stress at work lately.</div>
+
+                            <div class="typing-indicator" id="typingIndicator" style="display: none;">
+                                <div class="typing-dot"></div>
+                                <div class="typing-dot"></div>
+                                <div class="typing-dot"></div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Context Section -->
+                    <div style="padding: 15px 20px; border-top: 1px solid #e0e0e0;">
+                        <div style="font-size: 13px; font-weight: 600; margin-bottom: 8px; display: flex; align-items: center; gap: 6px;">
+                            <span>📌</span> Context (Silent Notes)
+                        </div>
+                        <textarea class="context-input" placeholder="Add information not captured in audio (e.g., patient appeared anxious, vitals: BP 120/80)..."></textarea>
+                        <div class="context-hint">This information will be included in the note but not transcribed</div>
+                    </div>
+                </div>
+
+                <!-- Note Panel -->
+                <div class="panel">
+                    <div class="panel-header">
+                        <div class="panel-title">
+                            <span>📄</span> Clinical Note
+                            <span style="font-size: 11px; color: #888; font-weight: normal;">SOAP Format</span>
+                        </div>
+                        <div style="display: flex; gap: 8px;">
+                            <button class="action-btn" onclick="copyNote()">
+                                <span>📋</span> Copy
+                            </button>
+                            <button class="action-btn primary" onclick="magicPaste()">
+                                <span>✨</span> Magic Paste
+                            </button>
+                        </div>
+                    </div>
+                    <div class="panel-content">
+                        <div class="note-content" id="noteContent">
+                            <div class="note-section">
+                                <div class="note-section-title">Subjective</div>
+                                <div class="note-section-content">
+                                    <p>Patient is a 45-year-old male presenting for follow-up visit. Reports overall improvement in general health since last visit. Chief complaint today: occasional morning headaches.</p>
+                                    <p style="margin-top: 8px;"><strong>HPI:</strong> Patient describes intermittent headaches occurring primarily in the morning upon waking. Headaches typically resolve after consuming caffeine. Reports correlation with poor sleep quality. Currently experiencing increased occupational stress.</p>
+                                </div>
+                            </div>
+
+                            <div class="note-section">
+                                <div class="note-section-title">Objective</div>
+                                <div class="note-section-content">
+                                    <ul>
+                                        <li>Vitals: BP 128/82, HR 72, Temp 98.6°F</li>
+                                        <li>General: Alert, oriented, no acute distress</li>
+                                        <li>HEENT: Normocephalic, pupils equal and reactive</li>
+                                        <li>Neuro: Cranial nerves II-XII intact</li>
+                                    </ul>
+                                </div>
+                            </div>
+
+                            <div class="note-section">
+                                <div class="note-section-title">Assessment</div>
+                                <div class="note-section-content">
+                                    <ol>
+                                        <li>Tension-type headache, likely related to sleep hygiene and stress</li>
+                                        <li>Caffeine dependency</li>
+                                        <li>Work-related stress</li>
+                                    </ol>
+                                </div>
+                            </div>
+
+                            <div class="note-section">
+                                <div class="note-section-title">Plan</div>
+                                <div class="note-section-content">
+                                    <ul>
+                                        <li>Sleep hygiene counseling provided</li>
+                                        <li>Recommend gradual caffeine reduction</li>
+                                        <li>Consider referral to behavioral health if stress persists</li>
+                                        <li>Follow up in 4 weeks or sooner if symptoms worsen</li>
+                                        <li>Headache diary recommended</li>
+                                    </ul>
+                                </div>
+                            </div>
+
+                            <!-- Billing Codes Section -->
+                            <div class="coding-panel">
+                                <div class="coding-header">
+                                    <div class="coding-title">
+                                        <span>💰</span> Suggested Billing Codes
+                                    </div>
+                                    <div class="coding-progress">
+                                        <div class="progress-dot confirmed"></div>
+                                        <div class="progress-dot confirmed"></div>
+                                        <div class="progress-dot partial"></div>
+                                    </div>
+                                </div>
+                                <div class="code-item" onclick="confirmCode(this)">
+                                    <div class="code-info">
+                                        <span class="code-type">ICD-10</span>
+                                        <span class="code-value">G44.209</span>
+                                        <span class="code-desc">Tension-type headache, unspecified</span>
+                                    </div>
+                                    <div class="code-status confirmed">✓</div>
+                                </div>
+                                <div class="code-item" onclick="confirmCode(this)">
+                                    <div class="code-info">
+                                        <span class="code-type">CPT</span>
+                                        <span class="code-value">99214</span>
+                                        <span class="code-desc">Office visit, established patient</span>
+                                    </div>
+                                    <div class="code-status confirmed">✓</div>
+                                </div>
+                                <div class="code-item" onclick="confirmCode(this)">
+                                    <div class="code-info">
+                                        <span class="code-type">ICD-10</span>
+                                        <span class="code-value">F43.0</span>
+                                        <span class="code-desc">Acute stress reaction</span>
+                                    </div>
+                                    <div class="code-status"></div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Ask Heidi Bar -->
+                    <div class="ask-heidi-bar">
+                        <input type="text" class="ask-heidi-input" placeholder="Ask Heidi to modify the note... (e.g., 'Add more detail to the plan')" id="askHeidiInput">
+                        <button class="ask-heidi-btn" onclick="askHeidi()">
+                            <span>→</span>
+                        </button>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Bottom Bar -->
+            <div class="bottom-bar">
+                <div class="bottom-left">
+                    <button class="action-btn" onclick="generateDocument('referral')">
+                        <span>📨</span> Generate Referral
+                    </button>
+                    <button class="action-btn" onclick="generateDocument('summary')">
+                        <span>📋</span> Patient Summary
+                    </button>
+                    <button class="action-btn" onclick="generateDocument('certificate')">
+                        <span>📜</span> Medical Certificate
+                    </button>
+                </div>
+                <div class="bottom-right">
+                    <button class="action-btn" onclick="pushToEHR()">
+                        <span>🔄</span> Push to EHR
+                    </button>
+                    <button class="action-btn primary" onclick="approveAndComplete()">
+                        <span>✅</span> Approve & Complete
+                    </button>
+                </div>
+            </div>
+        </main>
+    </div>
+
+    <!-- Template Modal -->
+    <div class="modal-overlay" id="templateModal">
+        <div class="modal">
+            <div class="modal-header">
+                <div class="modal-title">Select Template</div>
+                <button class="modal-close" onclick="closeTemplateModal()">×</button>
+            </div>
+            <div class="modal-body">
+                <input type="text" class="template-search" placeholder="Search templates...">
+                <div class="template-tabs">
+                    <button class="template-tab active">My Templates</button>
+                    <button class="template-tab">Community</button>
+                    <button class="template-tab">Specialty</button>
+                </div>
+                <div class="template-grid">
+                    <div class="template-card selected" onclick="selectTemplate(this)">
+                        <div class="template-name">SOAP Note <span class="template-favorite">★</span></div>
+                        <div class="template-desc">Standard subjective, objective, assessment, plan format</div>
+                    </div>
+                    <div class="template-card" onclick="selectTemplate(this)">
+                        <div class="template-name">H&P</div>
+                        <div class="template-desc">Comprehensive history and physical examination</div>
+                    </div>
+                    <div class="template-card" onclick="selectTemplate(this)">
+                        <div class="template-name">Progress Note</div>
+                        <div class="template-desc">Brief follow-up documentation</div>
+                    </div>
+                    <div class="template-card" onclick="selectTemplate(this)">
+                        <div class="template-name">Procedure Note</div>
+                        <div class="template-desc">Document procedures and interventions</div>
+                    </div>
+                    <div class="template-card" onclick="selectTemplate(this)">
+                        <div class="template-name">Telehealth Visit</div>
+                        <div class="template-desc">Remote consultation documentation</div>
+                    </div>
+                    <div class="template-card" onclick="selectTemplate(this)">
+                        <div class="template-name">Discharge Summary</div>
+                        <div class="template-desc">Patient discharge documentation</div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Feature Demo Panel -->
+    <div class="demo-section" id="demoSection">
+        <div class="demo-header">
+            <div class="demo-title">Feature Simulation</div>
+            <button class="demo-close" onclick="toggleDemoPanel()">×</button>
+        </div>
+
+        <div class="feature-card" onclick="demoFeature('transcription')">
+            <div class="feature-card-title">
+                <span>🎙️</span> Real-Time Transcription
+            </div>
+            <div class="feature-card-desc">Automatically transcribes patient consultations in 110+ languages with speaker diarization</div>
+            <button class="feature-demo-btn">Try Demo →</button>
+        </div>
+
+        <div class="feature-card" onclick="demoFeature('askheidi')">
+            <div class="feature-card-title">
+                <span>💬</span> Ask Heidi
+            </div>
+            <div class="feature-card-desc">Voice-supported AI command bar to modify notes, add details, or change formatting</div>
+            <button class="feature-demo-btn">Try Demo →</button>
+        </div>
+
+        <div class="feature-card" onclick="demoFeature('magicpaste')">
+            <div class="feature-card-title">
+                <span>✨</span> Magic Paste
+            </div>
+            <div class="feature-card-desc">One-click transfer of notes to any EHR system with intelligent field mapping</div>
+            <button class="feature-demo-btn">Try Demo →</button>
+        </div>
+
+        <div class="feature-card" onclick="demoFeature('coding')">
+            <div class="feature-card-title">
+                <span>💰</span> Auto Billing Codes
+            </div>
+            <div class="feature-card-desc">Automatic ICD-10, CPT, and HCPCS code suggestions based on documentation</div>
+            <button class="feature-demo-btn">Try Demo →</button>
+        </div>
+
+        <div class="feature-card" onclick="demoFeature('templates')">
+            <div class="feature-card-title">
+                <span>📋</span> Template Library
+            </div>
+            <div class="feature-card-desc">Thousands of customizable templates for 200+ specialties</div>
+            <button class="feature-demo-btn">Try Demo →</button>
+        </div>
+
+        <div class="feature-card" onclick="demoFeature('documents')">
+            <div class="feature-card-title">
+                <span>📄</span> Document Generation
+            </div>
+            <div class="feature-card-desc">Generate referrals, patient summaries, certificates, and more with one click</div>
+            <button class="feature-demo-btn">Try Demo →</button>
+        </div>
+
+        <div class="feature-card" onclick="demoFeature('brain')">
+            <div class="feature-card-title">
+                <span>🧠</span> Left/Right Brain Toggle
+            </div>
+            <div class="feature-card-desc">Choose between precise, concise notes (Left) or detailed, thoughtful documentation (Right)</div>
+            <button class="feature-demo-btn">Try Demo →</button>
+        </div>
+
+        <div class="feature-card" onclick="demoFeature('integration')">
+            <div class="feature-card-title">
+                <span>🔗</span> EHR Integrations
+            </div>
+            <div class="feature-card-desc">Seamlessly integrates with Epic, Athena, Best Practice, and more</div>
+            <button class="feature-demo-btn">Try Demo →</button>
+        </div>
+    </div>
+
+    <!-- Feature Demo Toggle Button -->
+    <button class="demo-toggle" onclick="toggleDemoPanel()">
+        <span>🎮</span> Feature Demo
+    </button>
+
+    <!-- Feature Tooltip -->
+    <div class="feature-tooltip" id="featureTooltip"></div>
+
+    <script>
+        // State
+        let isRecording = false;
+        let timerInterval = null;
+        let seconds = 0;
+        let audioBarsInterval = null;
+
+        // Recording functionality
+        function toggleRecording() {
+            const recordBtn = document.getElementById('recordBtn');
+            const typingIndicator = document.getElementById('typingIndicator');
+
+            if (!isRecording) {
+                // Start recording
+                isRecording = true;
+                recordBtn.classList.add('recording');
+                startTimer();
+                startAudioBars();
+                typingIndicator.style.display = 'inline-flex';
+                showNotification('Recording started');
+            } else {
+                // Stop recording
+                isRecording = false;
+                recordBtn.classList.remove('recording');
+                stopTimer();
+                stopAudioBars();
+                typingIndicator.style.display = 'none';
+                showNotification('Recording stopped - Note generated!');
+                // Simulate note generation
+                simulateNoteGeneration();
+            }
+        }
+
+        function startTimer() {
+            timerInterval = setInterval(() => {
+                seconds++;
+                updateTimerDisplay();
+            }, 1000);
+        }
+
+        function stopTimer() {
+            clearInterval(timerInterval);
+        }
+
+        function updateTimerDisplay() {
+            const mins = Math.floor(seconds / 60).toString().padStart(2, '0');
+            const secs = (seconds % 60).toString().padStart(2, '0');
+            document.getElementById('timer').textContent = `${mins}:${secs}`;
+        }
+
+        function startAudioBars() {
+            const bars = document.querySelectorAll('.audio-bar');
+            audioBarsInterval = setInterval(() => {
+                bars.forEach(bar => {
+                    bar.style.height = Math.random() * 25 + 5 + 'px';
+                });
+            }, 100);
+        }
+
+        function stopAudioBars() {
+            clearInterval(audioBarsInterval);
+            const bars = document.querySelectorAll('.audio-bar');
+            bars.forEach(bar => bar.style.height = '10px');
+        }
+
+        // Template Modal
+        function showTemplateModal() {
+            document.getElementById('templateModal').classList.add('show');
+        }
+
+        function closeTemplateModal() {
+            document.getElementById('templateModal').classList.remove('show');
+        }
+
+        function selectTemplate(card) {
+            document.querySelectorAll('.template-card').forEach(c => c.classList.remove('selected'));
+            card.classList.add('selected');
+            closeTemplateModal();
+            showNotification('Template selected: ' + card.querySelector('.template-name').textContent.trim());
+        }
+
+        // Brain toggle
+        function toggleBrain(side) {
+            document.querySelectorAll('.brain-option').forEach(opt => opt.classList.remove('active'));
+            document.querySelector(`.brain-option.${side}-brain`).classList.add('active');
+
+            const message = side === 'left'
+                ? 'Left Brain: Fast, precise documentation'
+                : 'Right Brain: Detailed, thoughtful documentation';
+            showNotification(message);
+        }
+
+        // Actions
+        function copyNote() {
+            const noteContent = document.getElementById('noteContent').innerText;
+            navigator.clipboard.writeText(noteContent).then(() => {
+                showNotification('Note copied to clipboard!');
+            });
+        }
+
+        function magicPaste() {
+            showNotification('✨ Magic Paste activated - Note transferred to EHR!');
+        }
+
+        function pushToEHR() {
+            showNotification('🔄 Pushing note to Epic EHR...');
+            setTimeout(() => {
+                showNotification('✅ Note successfully pushed to Epic!');
+            }, 1500);
+        }
+
+        function approveAndComplete() {
+            showNotification('✅ Session approved and completed!');
+        }
+
+        function generateDocument(type) {
+            const types = {
+                referral: 'Referral Letter',
+                summary: 'Patient Summary',
+                certificate: 'Medical Certificate'
+            };
+            showNotification(`Generating ${types[type]}...`);
+            setTimeout(() => {
+                showNotification(`${types[type]} generated successfully!`);
+            }, 1500);
+        }
+
+        function confirmCode(element) {
+            const status = element.querySelector('.code-status');
+            if (!status.classList.contains('confirmed')) {
+                status.classList.add('confirmed');
+                status.textContent = '✓';
+                showNotification('Billing code confirmed');
+            }
+        }
+
+        function askHeidi() {
+            const input = document.getElementById('askHeidiInput');
+            const query = input.value;
+            if (query) {
+                showNotification('Processing: "' + query + '"');
+                input.value = '';
+                setTimeout(() => {
+                    showNotification('Note updated based on your request!');
+                }, 1500);
+            }
+        }
+
+        // New Session
+        function startNewSession() {
+            seconds = 0;
+            updateTimerDisplay();
+            document.getElementById('transcriptArea').innerHTML = `
+                <div style="text-align: center; color: #888; padding: 50px;">
+                    <div style="font-size: 48px; margin-bottom: 15px;">🎙️</div>
+                    <div style="font-size: 16px;">Click the record button to start transcribing</div>
+                </div>
+            `;
+            document.getElementById('noteContent').innerHTML = `
+                <div style="text-align: center; color: #888; padding: 50px;">
+                    <div style="font-size: 48px; margin-bottom: 15px;">📝</div>
+                    <div style="font-size: 16px;">Clinical note will appear here after transcription</div>
+                </div>
+            `;
+            document.getElementById('sessionName').value = '';
+            showNotification('New session started');
+        }
+
+        function loadSession(id) {
+            document.querySelectorAll('.session-item').forEach(item => item.classList.remove('active'));
+            event.currentTarget.classList.add('active');
+            showNotification('Session loaded');
+        }
+
+        // Demo Panel
+        function toggleDemoPanel() {
+            document.getElementById('demoSection').classList.toggle('show');
+        }
+
+        function demoFeature(feature) {
+            const demos = {
+                transcription: () => {
+                    toggleRecording();
+                    simulateTranscription();
+                },
+                askheidi: () => {
+                    document.getElementById('askHeidiInput').value = 'Add more detail to the assessment section';
+                    document.getElementById('askHeidiInput').focus();
+                },
+                magicpaste: () => {
+                    magicPaste();
+                },
+                coding: () => {
+                    document.querySelector('.coding-panel').scrollIntoView({ behavior: 'smooth' });
+                    showNotification('Billing codes are automatically suggested based on documentation');
+                },
+                templates: () => {
+                    showTemplateModal();
+                },
+                documents: () => {
+                    generateDocument('referral');
+                },
+                brain: () => {
+                    toggleBrain('right');
+                    setTimeout(() => toggleBrain('left'), 2000);
+                },
+                integration: () => {
+                    showNotification('Connected integrations: Epic, Athenahealth, Best Practice');
+                }
+            };
+
+            if (demos[feature]) {
+                demos[feature]();
+                toggleDemoPanel();
+            }
+        }
+
+        // Simulate transcription
+        function simulateTranscription() {
+            const newText = [
+                { speaker: 'Doctor', text: 'Let me check your blood pressure. It looks a bit elevated today at 128 over 82.' },
+                { speaker: 'Patient', text: 'Is that concerning? I have been having more coffee than usual.' }
+            ];
+
+            let index = 0;
+            const interval = setInterval(() => {
+                if (index < newText.length && isRecording) {
+                    const transcript = document.getElementById('transcriptArea');
+                    const typingIndicator = document.getElementById('typingIndicator');
+
+                    const speakerDiv = document.createElement('div');
+                    speakerDiv.className = 'transcript-speaker';
+                    speakerDiv.textContent = newText[index].speaker + ':';
+
+                    const textDiv = document.createElement('div');
+                    textDiv.className = 'transcript-text';
+                    textDiv.textContent = newText[index].text;
+
+                    transcript.insertBefore(textDiv, typingIndicator);
+                    transcript.insertBefore(speakerDiv, textDiv);
+
+                    transcript.scrollTop = transcript.scrollHeight;
+                    index++;
+                } else {
+                    clearInterval(interval);
+                }
+            }, 3000);
+        }
+
+        function simulateNoteGeneration() {
+            // This simulates note generation after stopping recording
+            const noteContent = document.getElementById('noteContent');
+            noteContent.style.opacity = '0.5';
+            setTimeout(() => {
+                noteContent.style.opacity = '1';
+            }, 500);
+        }
+
+        // Notification system
+        function showNotification(message) {
+            const existingNotif = document.querySelector('.notification');
+            if (existingNotif) existingNotif.remove();
+
+            const notif = document.createElement('div');
+            notif.className = 'notification';
+            notif.style.cssText = `
+                position: fixed;
+                top: 20px;
+                left: 50%;
+                transform: translateX(-50%);
+                background: #333;
+                color: white;
+                padding: 12px 24px;
+                border-radius: 8px;
+                font-size: 14px;
+                z-index: 2000;
+                animation: slideDown 0.3s ease;
+            `;
+            notif.textContent = message;
+            document.body.appendChild(notif);
+
+            setTimeout(() => {
+                notif.style.animation = 'slideUp 0.3s ease';
+                setTimeout(() => notif.remove(), 300);
+            }, 3000);
+        }
+
+        // Add animation styles
+        const style = document.createElement('style');
+        style.textContent = `
+            @keyframes slideDown {
+                from { transform: translateX(-50%) translateY(-100%); opacity: 0; }
+                to { transform: translateX(-50%) translateY(0); opacity: 1; }
+            }
+            @keyframes slideUp {
+                from { transform: translateX(-50%) translateY(0); opacity: 1; }
+                to { transform: translateX(-50%) translateY(-100%); opacity: 0; }
+            }
+        `;
+        document.head.appendChild(style);
+
+        // Keyboard shortcuts
+        document.addEventListener('keydown', (e) => {
+            if (e.key === 'Enter' && document.activeElement.id === 'askHeidiInput') {
+                askHeidi();
+            }
+            if (e.ctrlKey && e.key === 'r') {
+                e.preventDefault();
+                toggleRecording();
+            }
+        });
+    </script>
+</body>
+</html>
